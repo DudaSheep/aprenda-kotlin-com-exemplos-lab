@@ -1,21 +1,64 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
-
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+class Usuario(val nomeAluno: String) 
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(val nome: String, val nivel: Nivel, val duracao: Int)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val nivel: Nivel, var conteudos: List<ConteudoEducacional> = emptyList()) {
 
     val inscritos = mutableListOf<Usuario>()
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricular(usuario: Usuario) : Boolean {    
+        return inscritos.add(usuario)               
     }
+    
+    
+    fun printAllInscritos(){
+        for (inscrito in inscritos) {                               
+    	println("${inscrito.nomeAluno} esta matriculada(o)")
+		}
+    }
+    
+    
+    fun printAllConteudoEducacional(){
+        for (i in conteudos) {                               
+    	println("${i.nome} - ${i.nivel} - ${i.duracao} horas")
+        }
+    }   
+    
 }
 
+
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    //Alunos
+    val aluno1 = Usuario("Alice")
+    val aluno3 = Usuario("Nemo")
+    val aluno2 = Usuario("Dora")
+
+    
+    //Conteudos
+    val conteudo1 = ConteudoEducacional("Code Class", Nivel.BASICO, 60)
+    val conteudo2 = ConteudoEducacional("Algoritmo", Nivel.INTERMEDIARIO, 100)
+    //cria lista de ConteudoEducacional
+    val listCont = mutableListOf<ConteudoEducacional>()
+    listCont.add(conteudo1)
+    listCont.add(conteudo2)
+    
+    //Formações
+    val kotlin: Formacao = Formacao("Kotlin", Nivel.INTERMEDIARIO, listCont)
+    val android: Formacao = Formacao("Test", Nivel.DIFICIL, listCont)
+    
+    //matricula alunos - Usuario
+    kotlin.matricular(aluno1)    
+    android.matricular(aluno2)    
+    kotlin.matricular(aluno3)
+    
+    //listas
+    kotlin.printAllInscritos()
+    kotlin.printAllConteudoEducacional()
+    android.printAllInscritos()
+    android.printAllConteudoEducacional() 
+    
+    
+    
 }
